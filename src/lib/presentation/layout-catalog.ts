@@ -16,23 +16,23 @@ export const LAYOUT_REFERENCE = `Available XML syntax and layout families:
 
 Base slide shell:
 <PRESENTATION><SECTION layout="left|right|vertical">...</SECTION></PRESENTATION>
-Use one main component inside each SECTION. Add a direct child <IMG query="..." /> or <IMG url="..." /> only when a root slide image helps; place it last. Simple slides may use only <TITLE>, <LABEL>, <H1>, <H2>, <H3>, <H4>, <P>, <BLOCKQUOTE>, <QUOTE>, <CALLOUT>, <CODE>, or <CONTRIBUTOR />.
+Use one main component inside each SECTION. Add a direct child <IMG query="..." /> or <IMG url="..." /> only when a root slide image helps; place it last. Simple slides may use only <TITLE>, <LABEL>, <H1>, <H2>, <H3>, <H4>, <P>, <QUOTE>, <CALLOUT>, <CODE>, or <CONTRIBUTOR />.
 
 Shared item pattern:
 Most visual components contain repeated items shaped as <DIV icon="optional"><H3>Label</H3><P>Short supporting text</P></DIV>. The wrapper tag changes the visual treatment. Only add icon="..." when the wrapper supports icons.
 
 Columns:
-Use <COLUMNS> when the slide needs balanced lanes or a container that can hold mixed nested content. Columns may contain headings, paragraphs, blockquotes, quotes, callouts, code blocks, item-level <IMG query="..." />, charts, infographics, or other supported elements when that improves clarity.
+Use <COLUMNS> when the slide needs balanced lanes or a container that can hold mixed nested content. Columns may contain headings, paragraphs, quotes, callouts, code blocks, item-level <IMG query="..." />, charts, infographics, or other supported elements when that improves clarity.
 <COLUMNS><DIV><H3>Market</H3><P>Demand is rising.</P></DIV><DIV><IMG query="team planning" /><H3>Execution</H3><P>Delivery capacity is ready.</P></DIV></COLUMNS>
 
 Text and content blocks:
 Use these like normal content components anywhere plain text, headings, or paragraphs would fit, including inside COLUMNS. Use <TITLE> only for the first slide, a newly created title slide, or an introduction slide.
 - <TITLE alignment="left|center|right">Main message</TITLE>
 - <LABEL alignment="left|center|right">Category</LABEL>
-- Quote family: <BLOCKQUOTE>Simple quote text.</BLOCKQUOTE> for the basic quote; <QUOTE variant="large|sidequote-icon|sidequote" author="Name">Memorable sentence.</QUOTE> for the designed quote component.
+- Quote family: <QUOTE variant="sidequote|large|sidequote-icon" author="Name">Memorable sentence.</QUOTE>. Use sidequote for the simple block quote treatment.
 - <CALLOUT variant="note|info|warning|caution|success|question">Short contextual note.</CALLOUT>
 - <CODE language="typescript">const example = true;</CODE>
-- <CONTRIBUTOR /> is standalone and self-populates from frontend presentation metadata. Do not add attributes or body text to it.
+- <CONTRIBUTOR /> is standalone and self-populates from frontend presentation metadata, you can chose the alignment attribute here if needed.
 
 First slide title pattern:
 For most generated first slides, use a compact title-slide pattern with <TITLE>, <CONTRIBUTOR />, and a supporting visual image. Place any direct child root <IMG query="..." /> last. You can omit <CONTRIBUTOR /> when the first slide needs a stronger creative concept.
@@ -42,7 +42,7 @@ Use these for grouped points, feature sets, benefits, requirements, or short tak
 - <BULLETS bulletType="basic|numbered|arrow">...</BULLETS>
 - <ICONS variant="icon|image" orientation="side|top">...</ICONS>
     For <ICONS variant="image">, use <DIV prompt="detailed image prompt"> instead of icon. For <ICONS variant="icon">, use <DIV icon="keyword">.
-- <BOXES boxType="outline|icon|solid|sideline|side-label|top-label|top-circle|joined|joined-icon|leaf|labeled|alternating" orientation="horizontal|vertical" numbered="true">...</BOXES>
+- <BOXES boxType="outline|icon|solid|sideline|side-label|top-label|top-circle|joined|joined-icon|leaf|labeled|alternating|quote-box|speech-bubble" orientation="horizontal|vertical" numbered="true">...</BOXES>
 - <ARROWS orientation="horizontal|vertical" svgType="arrow|pill|parallelogram" showIcon="true|false">...</ARROWS>
 
 Example: <BULLETS bulletType="arrow"><DIV><H3>Faster review</H3><P>Decisions move in hours.</P></DIV><DIV><H3>Cleaner handoff</H3><P>Teams share one source.</P></DIV></BULLETS>
@@ -88,4 +88,4 @@ Infographic family:
 Use <INFOGRAPHIC>self-contained visual prompt</INFOGRAPHIC> for custom diagrams, process maps, lifecycle visuals, hierarchies, funnels, matrices, frameworks, or cause-and-effect flows. Include exact labels, values, entities, sequence, relationships, orientation, and takeaway in the element text.
 
 Supporting tags:
-Use <DIV>, <TITLE>, <LABEL>, <CONTRIBUTOR />, <BLOCKQUOTE>, <QUOTE>, <CALLOUT>, <CODE>, <H1>, <H2>, <H3>, <H4>, <P>, <LI>, <IMG />, <OPTIONS>, <TR>, <TH>, <TD>, <PROS>, and <CONS> exactly as shown. Do not invent tags or attributes.`;
+Use <DIV>, <TITLE>, <LABEL>, <CONTRIBUTOR />, <QUOTE>, <CALLOUT>, <CODE>, <H1>, <H2>, <H3>, <H4>, <P>, <LI>, <IMG />, <OPTIONS>, <TR>, <TH>, <TD>, <PROS>, and <CONS> exactly as shown. Do not invent tags or attributes.`;

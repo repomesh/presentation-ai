@@ -49,7 +49,7 @@ const COMPONENT_INSTRUCTIONS = `Component instructions:
 - SLOPE items must use <H4> only and must not include <P>.
 - Use <TITLE> only for the first slide, a newly created title slide, or an introduction slide.
 - Use <CONTRIBUTOR /> only as an empty standalone metadata block. Do not add attributes or body text to it.
-- Treat <LABEL>, <BLOCKQUOTE>, <QUOTE>, <CALLOUT>, and <CODE> as normal content blocks that can be used anywhere headings and paragraphs can be used, including inside COLUMNS.
+- Treat <LABEL>, <QUOTE>, <CALLOUT>, and <CODE> as normal content blocks that can be used anywhere headings and paragraphs can be used, including inside COLUMNS.
 - Use COLUMNS only for balanced lanes. Every column item must have parallel content, similar text length, and the same heading level; do not mix an H1-style item with H3/H4-style items in sibling columns.
 - Keep columns visually balanced even when they include images, charts, infographics, or nested supported content.`;
 
@@ -95,6 +95,11 @@ export const presentationGenerationPromptTemplate =
     ["human", USER_PROMPT_TEMPLATE],
   ]);
 
+export type PresentationPromptMessages = {
+  human: string;
+  system: string;
+};
+
 export function buildPresentationPromptValues(
   input: PresentationGenerationPromptInput,
 ): Record<string, string | number> {
@@ -122,6 +127,28 @@ export function buildPresentationPromptValues(
     VISUAL_GUIDANCE: buildVisualGuidance(templatePromptContext),
     XML_SYNTAX_GUIDANCE: buildXmlSyntaxGuidance(templatePromptContext),
   };
+}
+
+export async function buildPresentationPromptMessages(
+  input: PresentationGenerationPromptInput,
+): Promise<PresentationPromptMessages> {
+  const promptValues = buildPresentationPromptValues(input);
+
+  return {
+    human: interpolatePromptTemplate(USER_PROMPT_TEMPLATE, promptValues),
+    system: interpolatePromptTemplate(SYSTEM_PROMPT_TEMPLATE, promptValues),
+  };
+}
+
+function interpolatePromptTemplate(
+  template: string,
+  values: Record<string, string | number>,
+): string {
+  return Object.entries(values).reduce(
+    (renderedTemplate, [key, value]) =>
+      renderedTemplate.replaceAll(`{${key}}`, String(value)),
+    template,
+  );
 }
 
 function hasItems(value: unknown[] | undefined): boolean {
@@ -461,7 +488,7 @@ function buildXmlSyntaxGuidance(context: TemplatePromptContext): string {
     return "Use the XML formats provided below as the output formats.";
   }
 
-  return 'Available XML syntax: wrap the deck in one <PRESENTATION> root. Put each slide in <SECTION layout="left|right|vertical">. Put one main component in each SECTION, except simple text slides and infographic-as-main slides may use only headings, paragraphs, title, label, blockquote, quote, callout, code, or contributor blocks beside the infographic. Put a direct child root <IMG ... /> last when the slide needs a root image.';
+  return 'Available XML syntax: wrap the deck in one <PRESENTATION> root. Put each slide in <SECTION layout="left|right|vertical">. Put one main component in each SECTION, except simple text slides and infographic-as-main slides may use only headings, paragraphs, title, label, quote, callout, code, or contributor blocks beside the infographic. Put a direct child root <IMG ... /> last when the slide needs a root image.';
 }
 
 function buildFormatGuidance(context: TemplatePromptContext): string {
